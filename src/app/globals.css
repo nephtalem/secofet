@@ -12,7 +12,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -23,4 +23,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.swiper-slide:not(.swiper-slide-active) .swiper-no-swiping {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.5s;
+}
+.swiper-slide.swiper-slide-active .swiper-no-swiping {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
