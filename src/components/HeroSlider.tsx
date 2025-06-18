@@ -8,13 +8,14 @@ import "swiper/css/effect-fade";
 import Image from "next/image";
 import { Button } from "@headlessui/react";
 import { motion, easeOut, easeInOut } from "framer-motion";
-import Slider1image from "@/assets/ethipian-girl.jpg";
+import { useRouter } from "next/navigation";
+import Coffee from "@/assets/hero-coffee.jpg";
 
 const slides = [
   {
-    image: Slider1image,
+    image: Coffee,
     headline: "Ethiopian Coffee Excellence",
-    desc: "Experience the finest coffee, sourced and processed with passion.",
+    desc: "Experience the finest coffee, sourced and processed with passion. Discover the rich heritage and unique flavors that set Ethiopian coffee apart on the world stage.",
   },
   // {
   //   image:
@@ -26,7 +27,7 @@ const slides = [
     image:
       "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80",
     headline: "Garment & Textile Innovation",
-    desc: "Modern garment solutions for a global market.",
+    desc: "Modern garment solutions for a global market. Our commitment to quality and innovation ensures you always get the best in style and durability.",
   },
 ];
 
@@ -71,92 +72,95 @@ const wordVariants = {
   animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOut } },
 };
 
-const HeroSlider = () => (
-  <section
-    id="home"
-    className="relative w-full flex items-center justify-center overflow-hidden"
-    style={heroMinHeight}
-  >
-    <Swiper
-      modules={[Pagination, Autoplay, EffectFade]}
-      pagination={{ clickable: true }}
-      autoplay={{ delay: 5000, disableOnInteraction: false }}
-      loop
-      effect="fade"
-      speed={1200}
-      className="w-full h-full"
+const HeroSlider = () => {
+  const router = useRouter();
+  return (
+    <section
+      id="home"
+      className="relative w-full flex items-center justify-center overflow-hidden"
+      style={heroMinHeight}
     >
-      {slides.map((slide, idx) => (
-        <SwiperSlide key={idx}>
-          <div
-            className="relative w-full flex items-center justify-center"
-            style={{ minHeight: "calc(100vh - 5rem)" }}
-          >
-            <Image
-              src={slide.image}
-              alt={slide.headline}
-              fill
-              className="object-cover"
-              priority={idx === 0}
-              sizes="100vw"
-              style={{ objectFit: "cover" }}
-            />
+      <Swiper
+        modules={[Pagination, Autoplay, EffectFade]}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        loop
+        effect="fade"
+        speed={1200}
+        className="w-full h-full"
+      >
+        {slides.map((slide, idx) => (
+          <SwiperSlide key={idx}>
             <div
-              className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/70"
-              style={{ zIndex: 10 }}
-            />
-            <div
-              className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
-              style={{ zIndex: 20 }}
+              className="relative w-full flex items-center justify-center"
+              style={{ minHeight: "calc(100vh - 5rem)" }}
             >
-              <motion.h1
-                className="text-white text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg flex flex-wrap justify-center gap-x-2"
-                variants={headlineStagger}
-                initial="initial"
-                animate="animate"
-                key={slide.headline}
+              <Image
+                src={slide.image}
+                alt={slide.headline}
+                fill
+                className="object-cover"
+                priority={idx === 0}
+                sizes="100vw"
+                style={{ objectFit: "cover" }}
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/70"
+                style={{ zIndex: 10 }}
+              />
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
+                style={{ zIndex: 20 }}
               >
-                {slide.headline.split(" ").map((word, i) => (
-                  <motion.span
-                    key={word + i}
-                    variants={wordVariants}
-                    className="inline-block"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </motion.h1>
-              <motion.p
-                className="text-white text-lg md:text-2xl max-w-2xl mx-auto drop-shadow mb-6"
-                variants={contentVariants}
-                initial="initial"
-                animate="animate"
-                transition={{ delay: 0.2 }}
-                key={slide.desc}
-              >
-                {slide.desc}
-              </motion.p>
-              <motion.div
-                variants={buttonVariants}
-                initial="initial"
-                animate={["animate", "pulse"]}
-                whileHover="whileHover"
-                whileTap="whileTap"
-              >
-                <Button
-                  as="button"
-                  className="mt-2 px-8 py-3 rounded-full bg-[#5A8C4A] text-white font-semibold text-lg shadow-lg hover:bg-[#47703a] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5A8C4A] focus:ring-offset-2"
-                  onClick={() => alert("Learn more clicked!")}
+                <motion.h1
+                  className="text-white text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg flex flex-wrap justify-center gap-x-2"
+                  variants={headlineStagger}
+                  initial="initial"
+                  animate="animate"
+                  key={slide.headline}
                 >
-                  Learn More
-                </Button>
-              </motion.div>
+                  {slide.headline.split(" ").map((word, i) => (
+                    <motion.span
+                      key={word + i}
+                      variants={wordVariants}
+                      className="inline-block"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.h1>
+                <motion.p
+                  className="text-gray-100 text-lg md:text-2xl max-w-2xl mx-auto drop-shadow mb-6"
+                  variants={contentVariants}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.2 }}
+                  key={slide.desc}
+                >
+                  {slide.desc}
+                </motion.p>
+                <motion.div
+                  variants={buttonVariants}
+                  initial="initial"
+                  animate={["animate", "pulse"]}
+                  whileHover="whileHover"
+                  whileTap="whileTap"
+                >
+                  <Button
+                    as="button"
+                    className="mt-2 px-8 py-3 rounded-full bg-[#5A8C4A] text-white font-semibold text-lg shadow-lg hover:bg-[#47703a] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5A8C4A] focus:ring-offset-2"
+                    onClick={() => router.push("/book-meeting")}
+                  >
+                    Book a Meeting
+                  </Button>
+                </motion.div>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </section>
-);
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
+  );
+};
 
 export default HeroSlider;

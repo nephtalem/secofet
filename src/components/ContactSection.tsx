@@ -4,6 +4,7 @@ import { EnvelopeIcon, MapPinIcon, PhoneIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, easeOut } from "framer-motion";
+import Map from "@/assets/map.jpg";
 
 const leftVariants = {
   hidden: { opacity: 0, x: -60 },
@@ -20,7 +21,9 @@ const rightVariants = {
 
 const ContactSection = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,10 +31,32 @@ const ContactSection = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setForm({ name: "", email: "", message: "" });
+    setLoading(true);
+    setError(null);
+    setSubmitted(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Something went wrong");
+      }
+      setSubmitted(true);
+      setForm({ name: "", email: "", message: "" });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Failed to send message");
+      } else {
+        setError("Failed to send message");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,13 +108,17 @@ const ContactSection = () => {
               as="button"
               type="submit"
               className="w-fit px-8 py-3 rounded-full bg-[#5A8C4A] text-white font-semibold text-lg shadow-lg hover:bg-[#47703a] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5A8C4A] focus:ring-offset-2 mt-2"
+              disabled={loading}
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </Button>
-            {submitted && (
+            {submitted && !error && (
               <div className="text-green-700 font-semibold mt-2">
                 Thank you for contacting us!
               </div>
+            )}
+            {error && (
+              <div className="text-red-600 font-semibold mt-2">{error}</div>
             )}
           </form>
         </motion.div>
@@ -104,20 +133,20 @@ const ContactSection = () => {
           <div className="bg-white rounded-2xl shadow p-6 flex flex-col gap-4 w-full">
             <div className="flex items-center gap-3 text-lg text-gray-700">
               <EnvelopeIcon className="w-6 h-6 text-[#5A8C4A]" />{" "}
-              info@secofet.com
+              info@secofettradingplc.com
             </div>
             <div className="flex items-center gap-3 text-lg text-gray-700">
-              <PhoneIcon className="w-6 h-6 text-[#5A8C4A]" /> +251 11 123 4567
+              <PhoneIcon className="w-6 h-6 text-[#5A8C4A]" /> +251 979 321 414
             </div>
             <div className="flex items-center gap-3 text-lg text-gray-700">
-              <MapPinIcon className="w-6 h-6 text-[#5A8C4A]" /> Bole, Addis
-              Ababa, Ethiopia
+              <MapPinIcon className="w-6 h-6 text-[#5A8C4A]" /> Gurd Shola,
+              Addis Ababa, Ethiopia
             </div>
           </div>
           <div className="relative w-full h-56 rounded-2xl overflow-hidden shadow-lg">
             <Image
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-              alt="Map location"
+              src={Map}
+              alt="Map of Gurd Shola, Addis Ababa, Ethiopia"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"

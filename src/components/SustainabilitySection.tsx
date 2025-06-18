@@ -6,6 +6,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/solid";
 import { motion, easeOut } from "framer-motion";
+import Sustainability from "@/assets/ecosystem.jpg";    
 
 const features = [
   {
@@ -58,7 +59,7 @@ const SustainabilitySection = () => (
         viewport={{ once: true, amount: 0.4 }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+          src={Sustainability}
           alt="Sustainability"
           fill
           className="object-cover"

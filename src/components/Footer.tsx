@@ -37,7 +37,7 @@ const Footer = () => (
       {/* Contact Info */}
       <div className="flex-1 flex flex-col items-center md:items-end text-white/60 text-sm">
         <span>info@secofet.com</span>
-        <span>Bole, Addis Ababa, Ethiopia</span>
+        <span>Gurd Shola, Addis Ababa, Ethiopia</span>
       </div>
     </div>
     <div className="max-w-4xl mx-auto mt-6 pt-4 border-t border-white/10 text-center text-xs text-white/40">

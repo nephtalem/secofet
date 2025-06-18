@@ -7,35 +7,40 @@ import {
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { motion, easeOut } from "framer-motion";
+import ImportImage from "@/assets/import.jpg";
+import ExportImage from "@/assets/export.jpg";
+import ProcessedCoffeeImage from "@/assets/processed-coffee.jpg";
+import GarmentImage from "@/assets/garment.jpg";
+import Link from "next/link";
 
 const businesses = [
   {
     title: "Import",
     desc: "Bringing quality construction materials and stationary products from around the world.",
     icon: <BriefcaseIcon className="w-10 h-10 text-[#5A8C4A]" />,
-    image:
-      "https://images.unsplash.com/photo-1503389152951-9c3d0c6b7a5a?auto=format&fit=crop&w=400&q=80",
+    image: ImportImage,
+    slug: "import",
   },
   {
     title: "Export",
     desc: "Exporting the finest Ethiopian raw coffee to the global market.",
     icon: <ArrowTrendingUpIcon className="w-10 h-10 text-[#5A8C4A]" />,
-    image:
-      "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80",
+    image: ExportImage,
+    slug: "export",
   },
   {
     title: "Processed Coffee",
     desc: "Premium processed coffee under our Brook Roots brand, crafted for excellence.",
     icon: <SparklesIcon className="w-10 h-10 text-[#5A8C4A]" />,
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+    image: ProcessedCoffeeImage,
+    slug: "processed-coffee",
   },
   {
     title: "Garment",
     desc: "Innovative garment and textile solutions for a modern world.",
     icon: <ShoppingBagIcon className="w-10 h-10 text-[#5A8C4A]" />,
-    image:
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80",
+    image: GarmentImage,
+    slug: "garment",
   },
 ];
 
@@ -66,41 +71,46 @@ const BusinessesSection = () => (
       </motion.h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {businesses.map((biz, idx) => (
-          <motion.div
+          <Link
             key={biz.title}
-            className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-500 flex flex-col items-center p-6 relative overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105"
-            style={{
-              transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-              transitionProperty: "box-shadow, transform",
-            }}
-            custom={idx}
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            href={`/businesses/${biz.slug}`}
+            className="contents"
           >
-            <div className="relative w-20 h-20 mb-4 rounded-full overflow-hidden shadow-lg">
-              <Image
-                src={biz.image}
-                alt={biz.title}
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-300"
-                sizes="80px"
-                priority={idx === 0}
-              />
-              <div className="absolute inset-0 bg-black/10" />
-            </div>
-            <div className="mb-3">{biz.icon}</div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">
-              {biz.title}
-            </h3>
-            <p className="text-gray-600 text-base text-center mb-2">
-              {biz.desc}
-            </p>
-            <span className="absolute right-4 top-4 bg-[#5A8C4A] text-white text-xs px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
-              Learn More
-            </span>
-          </motion.div>
+            <motion.div
+              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-500 flex flex-col items-center p-6 relative overflow-hidden cursor-pointer hover:-translate-y-2 hover:scale-105"
+              style={{
+                transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                transitionProperty: "box-shadow, transform",
+              }}
+              custom={idx}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <div className="relative w-20 h-20 mb-4 rounded-full overflow-hidden shadow-lg">
+                <Image
+                  src={biz.image}
+                  alt={biz.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  sizes="80px"
+                  priority={idx === 0}
+                />
+                <div className="absolute inset-0 bg-black/10" />
+              </div>
+              <div className="mb-3">{biz.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">
+                {biz.title}
+              </h3>
+              <p className="text-gray-600 text-base text-center mb-2">
+                {biz.desc}
+              </p>
+              <span className="absolute right-4 top-4 bg-[#5A8C4A] text-white text-xs px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
+                Learn More
+              </span>
+            </motion.div>
+          </Link>
         ))}
       </div>
     </div>

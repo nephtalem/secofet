@@ -1,6 +1,6 @@
 "use client";
 import Logo from "./Logo";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 const navLinks = [
@@ -11,13 +11,26 @@ const navLinks = [
   { href: "#exhibition", label: "Exhibition/Events" },
   { href: "#partners", label: "Partners" },
   { href: "#blog", label: "Blog" },
-  { href: "#careers", label: "Careers" },
-  { href: "#faq", label: "FAQ" },
+ 
   { href: "#contact", label: "Contact" },
 ];
 
 const Header = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      setMenuOpen(false);
+    }
+  };
 
   return (
     <motion.header
@@ -33,7 +46,8 @@ const Header = () => {
       >
         <Logo />
       </motion.div>
-      <nav className="space-x-4 flex">
+      {/* Desktop Nav */}
+      <nav className="space-x-4 hidden md:flex">
         {navLinks.map((link, idx) => (
           <motion.a
             key={link.href}
@@ -41,6 +55,7 @@ const Header = () => {
             className="relative px-1 py-1 font-medium text-gray-700 hover:text-[#5A8C4A] transition-colors"
             onMouseEnter={() => setHoveredIdx(idx)}
             onMouseLeave={() => setHoveredIdx(null)}
+            onClick={(e) => handleSmoothScroll(e, link.href)}
           >
             <span className="relative z-10">{link.label}</span>
             <motion.div
@@ -53,6 +68,51 @@ const Header = () => {
           </motion.a>
         ))}
       </nav>
+      {/* Hamburger for Mobile */}
+      <button
+        className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded focus:outline-none focus:ring-2 focus:ring-[#5A8C4A]"
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label="Toggle menu"
+      >
+        <span
+          className={`block w-6 h-0.5 bg-[#5A8C4A] mb-1 transition-transform duration-300 ${
+            menuOpen ? "rotate-45 translate-y-2" : ""
+          }`}
+        ></span>
+        <span
+          className={`block w-6 h-0.5 bg-[#5A8C4A] mb-1 transition-opacity duration-300 ${
+            menuOpen ? "opacity-0" : ""
+          }`}
+        ></span>
+        <span
+          className={`block w-6 h-0.5 bg-[#5A8C4A] transition-transform duration-300 ${
+            menuOpen ? "-rotate-45 -translate-y-2" : ""
+          }`}
+        ></span>
+      </button>
+      {/* Mobile Nav */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-16 left-0 w-full bg-white shadow-lg z-50 flex flex-col items-center py-6 md:hidden"
+          >
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="block w-full text-center py-3 text-lg font-medium text-gray-700 hover:text-[#5A8C4A] transition-colors"
+                onClick={(e) => handleSmoothScroll(e, link.href)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

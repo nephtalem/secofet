@@ -7,23 +7,24 @@ import {
 } from "@heroicons/react/24/solid";
 import { Button } from "@headlessui/react";
 import { motion, easeOut } from "framer-motion";
+import EthiopicaCoffeeShow from "@/assets/expo.jpg";
+import Link from "next/link";
+import GlobalTradeSummit from "@/assets/global-summit.jpg";
 
 const events = [
   {
-    title: "International Coffee Expo 2024",
-    date: "June 15-18, 2024",
-    location: "Addis Ababa, Ethiopia",
-    image:
-      "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-    desc: "Join us at Africa's premier coffee exhibition to discover our latest products and innovations.",
+    title: "Ethiopica Coffee Show (part of agrofood Ethiopia)",
+    date: "June 19 - 21, 2025",
+    location: "Millennium Hall, Addis Ababa",
+    image: EthiopicaCoffeeShow,
+    desc: "Global participation from 16 countries, showcasing coffee products and solutions tailored for the Ethiopian market. GIZ-special initiative providing advice and support for investments, and a conference by the Ethiopian Beverages Manufacturing Industries Association.",
     featured: true,
   },
   {
     title: "Global Trade Summit",
     date: "March 10, 2024",
     location: "Dubai, UAE",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+    image: GlobalTradeSummit,
     desc: "Showcasing our import/export expertise and building new partnerships.",
     featured: false,
   },
@@ -64,13 +65,13 @@ const ExhibitionSection = () => (
       </motion.h2>
       {/* Featured Event Card */}
       <motion.div
-        className="flex flex-col md:flex-row items-center gap-8 mb-12 bg-white rounded-3xl shadow-2xl overflow-hidden"
+        className="flex flex-col md:flex-row items-center gap-0 mb-12 bg-white rounded-3xl shadow-2xl overflow-hidden"
         initial={{ opacity: 0, x: -60 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: easeOut }}
         viewport={{ once: true, amount: 0.4 }}
       >
-        <div className="relative w-full md:w-1/2 h-64 md:h-80">
+        <div className="relative w-full md:w-1/2 h-64 md:h-[400px] flex-shrink-0">
           <Image
             src={events[0].image}
             alt={events[0].title}
@@ -83,7 +84,6 @@ const ExhibitionSection = () => (
         </div>
         <div className="flex-1 p-8 flex flex-col gap-4">
           <h3 className="text-2xl md:text-3xl font-bold text-[#5A8C4A] mb-2 flex items-center gap-2">
-            <CalendarDaysIcon className="w-7 h-7 text-[#5A8C4A]" />
             {events[0].title}
           </h3>
           <div className="flex items-center gap-4 text-gray-700 mb-2">
@@ -96,9 +96,9 @@ const ExhibitionSection = () => (
           </div>
           <p className="text-gray-700 mb-4">{events[0].desc}</p>
           <Button
-            as="button"
+            as={Link}
+            href="/exhibition/ethiopica-coffee-show"
             className="w-fit px-6 py-2 rounded-full bg-[#5A8C4A] text-white font-semibold text-base shadow-lg hover:bg-[#47703a] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5A8C4A] focus:ring-offset-2 flex items-center gap-2"
-            onClick={() => alert("See event details!")}
           >
             Learn More <ArrowRightIcon className="w-5 h-5" />
           </Button>
